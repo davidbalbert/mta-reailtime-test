@@ -1,8 +1,9 @@
 # MTA Realtime Playground
 
-To regenerate Ruby protocol buffer files:
+To get started
 
 ```
 $ bundle install
-$ rake
+$ rake setup
+MTA API key: <your API key here>
 ```
