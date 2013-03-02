@@ -1,4 +1,6 @@
-desc "Creates foreman .env file"
+require 'open-uri'
+
+desc "Create foreman .env file"
 task :setup => [:drop_env, ".env"]
 
 task :drop_env do
@@ -11,6 +13,15 @@ file ".env" do
 
   File.open(".env", "w") do |f|
     f.puts("MTA_API_KEY=#{key}")
+  end
+end
+
+desc "Download latest real-time schedule information"
+task :update_data do
+  open("http://datamine.mta.info/mta_esi.php?key=#{ENV["MTA_API_KEY"]}") do |feed|
+    File.open("mtafeed", "w") do |f|
+      f.write(feed.read)
+    end
   end
 end
 
