@@ -17,7 +17,7 @@ file ".env" do
 end
 
 desc "Download latest real-time schedule information"
-task :update_data do
+task :update do
   open("http://datamine.mta.info/mta_esi.php?key=#{ENV["MTA_API_KEY"]}") do |feed|
     File.open("mtafeed", "w") do |f|
       f.write(feed.read)
