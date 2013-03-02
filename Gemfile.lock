@@ -1,0 +1,9 @@
+GEM
+  specs:
+    ruby-protocol-buffers (1.3.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ruby-protocol-buffers
