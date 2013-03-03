@@ -1,6 +1,6 @@
 require 'open-uri'
 
-desc "Create foreman .env file"
+desc "Create .env file with MTA API key"
 task :setup => [:drop_env, ".env"]
 
 task :drop_env do
@@ -32,7 +32,15 @@ task :update => ".env" do
 end
 
 desc "Generate ruby files from GTFS protobuf files"
-task :generate_protobufs => ["nyct-subway.pb.rb", "gtfs-realtime.pb.rb"]
+task :generate => [:require_protoc, "nyct-subway.pb.rb", "gtfs-realtime.pb.rb"]
+
+task :require_protoc do
+  unless system "which protoc >/dev/null"
+    $stderr.puts "Error: You need protoc - the protoc buffer compiler"
+    $stderr.puts "You can install it by running `brew install protobuf`"
+    exit 1
+  end
+end
 
 file "nyct-subway.pb.rb" => ["nyct-subway.proto"] do
   system "ruby-protoc nyct-subway.proto"
