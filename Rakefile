@@ -17,8 +17,14 @@ file ".env" do
 end
 
 desc "Download latest real-time schedule information"
-task :update do
-  open("http://datamine.mta.info/mta_esi.php?key=#{ENV["MTA_API_KEY"]}") do |feed|
+task :update => ".env" do
+  api_key = ENV["MTA_API_KEY"]
+
+  if !api_key && File.exists?(".env")
+    api_key = File.readlines(".env").grep(/^MTA_API_KEY=/).first.split("=")[1]
+  end
+
+  open("http://datamine.mta.info/mta_esi.php?key=#{api_key}") do |feed|
     File.open("mtafeed", "w") do |f|
       f.write(feed.read)
     end
