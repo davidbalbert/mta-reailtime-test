@@ -1,9 +1,9 @@
 require 'open-uri'
 
 desc "Create .env file with MTA API key"
-task :setup => [:drop_env, ".env"]
+task "setup" => ["drop_env", ".env"]
 
-task :drop_env do
+task "drop_env" do
   File.unlink(".env") if File.exists?(".env")
 end
 
@@ -17,7 +17,7 @@ file ".env" do
 end
 
 desc "Download latest real-time schedule information"
-task :update => ".env" do
+task "update" => ".env" do
   api_key = ENV["MTA_API_KEY"]
 
   if !api_key && File.exists?(".env")
@@ -32,9 +32,9 @@ task :update => ".env" do
 end
 
 desc "Generate ruby files from GTFS protobuf files"
-task :generate => [:require_protoc, "nyct-subway.pb.rb", "gtfs-realtime.pb.rb"]
+task :generate => ["require_protoc", "nyct-subway.pb.rb", "gtfs-realtime.pb.rb"]
 
-task :require_protoc do
+task "require_protoc" do
   unless system "which protoc >/dev/null"
     $stderr.puts "Error: You need protoc - the protoc buffer compiler"
     $stderr.puts "You can install it by running `brew install protobuf`"
