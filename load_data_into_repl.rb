@@ -28,5 +28,5 @@ end.to_h
 
 require 'pry'
 
-# Available local variables are groups and data
+# Available local variables are `groups` and `data`
 binding.pry
